@@ -15,7 +15,7 @@ pkgbase = linux-rockchip-joshua-git
 	makedepends = vboot-utils
 	makedepends = dtc
 	options = !strip
-	source = git+https://github.com/Joshua-Riek/linux-rockchip.git#tag=5.10.160-28
+	source = git+https://github.com/Joshua-Riek/linux-rockchip.git
 	source = 01-gcc-wrapper.patch
 	source = linux.preset
 	sha512sums = SKIP
