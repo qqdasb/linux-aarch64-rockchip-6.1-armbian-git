@@ -5,7 +5,7 @@
 _pkgbase=linux-rockchip
 pkgbase="${_pkgbase}"-git
 pkgname=("${pkgbase}"{,-headers})
-pkgver=5.10.160.r1080876.798b298fea3f
+pkgver=5.10.160.r1080883.54c45cf9dbf7
 pkgrel=1
 arch=('aarch64')
 license=('GPL2')
@@ -15,7 +15,7 @@ makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-t
 options=('!strip')
 _srcname='linux-rockchip'
 source=(
-  "git+${url}/${_srcname}.git#tag=${pkgver}-${pkgrel}"
+  "git+${url}/${_srcname}.git"
   'linux.preset'
 )
 
