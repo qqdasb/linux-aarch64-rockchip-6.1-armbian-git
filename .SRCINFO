@@ -1,5 +1,5 @@
 pkgbase = linux-rockchip-joshua-git
-	pkgver = 5.10.160.r1080876.798b298fea3f
+	pkgver = 5.10.198.r1087069.2402ddabce7f
 	pkgrel = 1
 	url = https://github.com/Joshua-Riek
 	arch = aarch64
@@ -11,11 +11,9 @@ pkgbase = linux-rockchip-joshua-git
 	makedepends = inetutils
 	makedepends = bc
 	makedepends = git
-	makedepends = uboot-tools
-	makedepends = vboot-utils
 	makedepends = dtc
 	options = !strip
-	source = git+https://github.com/Joshua-Riek/linux-rockchip.git
+	source = git+https://github.com/Joshua-Riek/linux-rockchip.git#branch=rkr7.1
 	source = 01-gcc-wrapper.patch
 	source = linux.preset
 	sha512sums = SKIP

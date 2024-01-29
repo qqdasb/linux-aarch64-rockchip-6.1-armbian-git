@@ -4,17 +4,17 @@
 
 pkgbase=linux-rockchip-joshua-git
 pkgname=("${pkgbase}"{,-headers})
-pkgver=5.10.160.r1080876.798b298fea3f
+pkgver=5.10.198.r1087069.2402ddabce7f
 pkgrel=1
 arch=('aarch64')
 license=('GPL2')
 url="https://github.com/Joshua-Riek"
 _desc="with patches picked by Joshua Riek focusing on RK3588" 
-makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'uboot-tools' 'vboot-utils' 'dtc')
+makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
 _srcname='linux-rockchip'
 source=(
-  "git+${url}/${_srcname}.git"
+  "git+${url}/${_srcname}.git#branch=rkr7.1"
   '01-gcc-wrapper.patch'
   'linux.preset'
 )
