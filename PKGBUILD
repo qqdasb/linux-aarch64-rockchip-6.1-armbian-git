@@ -5,7 +5,7 @@
 pkgbase=linux-rockchip-joshua-git
 pkgname=("${pkgbase}"{,-headers})
 pkgver=5.10.198.r1087069.2402ddabce7f
-pkgrel=1
+pkgrel=2
 arch=('aarch64')
 license=('GPL2')
 url="https://github.com/Joshua-Riek"
@@ -175,7 +175,7 @@ _package-headers() {
 
   echo "Adding symlink..."
   mkdir -p "$pkgdir/usr/src"
-  ln -sr "$builddir" "$pkgdir/usr/src/linux-$_kernel_tag"
+  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
 }
 
 for _p in ${pkgname[@]}; do
