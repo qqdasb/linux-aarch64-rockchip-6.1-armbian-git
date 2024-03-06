@@ -2,10 +2,10 @@
 # Maintainer: Jat-faan Wong
 # Contributor: Jat-faan Wong, Guoxin "7Ji" Pu, Joshua-Riek 
 
-pkgbase=linux-rockchip-joshua-git
+pkgbase=linux-aarch64-rockchip-bsp6.1-joshua-git
 pkgname=("${pkgbase}"{,-headers})
-pkgver=5.10.198.r1087069.2402ddabce7f
-pkgrel=2
+pkgver=6.1.43.r1266030.gd3e66fee
+pkgrel=1
 arch=('aarch64')
 license=('GPL2')
 url="https://github.com/Joshua-Riek"
@@ -14,54 +14,48 @@ makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
 _srcname='linux-rockchip'
 source=(
-  "git+${url}/${_srcname}.git#branch=rkr7.1"
-  '01-gcc-wrapper.patch'
+  "git+${url}/${_srcname}.git#branch=rk-6.1-rkr1"
   'linux.preset'
+  'localversion.config'
 )
 
 sha512sums=(
   'SKIP'
-  'a2daf21e3df0a0a50b0e81f4a163754acc08fb1104b875560a984123ccb83c31bd6fd47951e666faaa73723a400766cf9350b13d4ec0d566183f81cff03a68d8'
   '2dc6b0ba8f7dbf19d2446c5c5f1823587de89f4e28e9595937dd51a87755099656f2acec50e3e2546ea633ad1bfd1c722e0c2b91eef1d609103d8abdc0a7cbaf'
+  '9ec050e491788b8428395fc28b6d8486d64d314d8b85e97d8df30a35bd7b85d2ed84682e7b2eaed7b471b73aa51119e360761a099719eed9952713e0caba17ce'
 )
+
+pkgver() {
+  cd "${_srcname}"
+  printf "%s.%s%s%s.r%s.g%s" \
+    "$(grep '^VERSION = ' Makefile|awk -F' = ' '{print $2}')" \
+    "$(grep '^PATCHLEVEL = ' Makefile|awk -F' = ' '{print $2}')" \
+    "$(grep '^SUBLEVEL = ' Makefile|awk -F' = ' '{print $2}'|grep -vE '^0$'|sed 's/.*/.\0/')" \
+    "$(grep '^EXTRAVERSION = ' Makefile|awk -F' = ' '{print $2}'|tr -d -|sed -E 's/rockchip[0-9]+//')" \
+    "$(git rev-list --count HEAD)" \
+    "$(git rev-parse --short=8 HEAD)"
+}
 
 prepare() {
   cd "${_srcname}"
-
-  echo "Setting version..."
-  echo - > localversion.09-hyphen
-  {
-    printf r 
-    git rev-list --count HEAD
-  } > localversion.10-rev-kernel
-  echo - > localversion.19-hyphen
-  git rev-parse --short HEAD > localversion.20-id-kernel
-  echo "-${pkgrel}" > localversion.30-pkgrel
-  echo "${pkgbase#linux}" > localversion.40-pkgname
   
+  rm -rf localversion*
+  echo "Setting version..."
+  echo "-rockchip" > localversion.10-pkgname
+  #echo "-r$(git rev-list --count HEAD)" > localversion.20-revision
+
   # this is only for local builds so there is no need to integrity check. (if needed)
   for p in ../../custom/*.patch; do
     echo "Custom Patching with ${p}"
     patch -p1 -N -i $p || true
   done
 
-  echo "Patch gcc-wrapper.patch to fix strict warning..."
-  patch -p1 -N -i ../01-gcc-wrapper.patch || true
-
   echo "Preparing config..."
-  cat arch/arm64/configs/rockchip_linux_defconfig > .config
+  scripts/kconfig/merge_config.sh -m arch/arm64/configs/rockchip_defconfig ../localversion.config
   make olddefconfig prepare
 
   make -s kernelrelease > version
   echo "Prepared for $(<version)"
-}
-
-pkgver() {
-  cd "${_srcname}"
-  printf '%s.%s.%s' \
-    "$(make kernelversion)" \
-    "$(<localversion.10-rev-kernel)" \
-    "$(<localversion.20-id-kernel)"
 }
 
 build() {
