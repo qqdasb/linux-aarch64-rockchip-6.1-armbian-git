@@ -14,14 +14,12 @@ makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
 _srcname='linux-rockchip'
 source=(
-  "git+${url}/${_srcname}.git#branch=rk-6.1-rkr1"
-  'linux.preset'
+  "git+${url}/${_srcname}.git#branch=linux-6.1-stan-rkr1"
   'localversion.config'
 )
 
 sha512sums=(
   'SKIP'
-  '2dc6b0ba8f7dbf19d2446c5c5f1823587de89f4e28e9595937dd51a87755099656f2acec50e3e2546ea633ad1bfd1c722e0c2b91eef1d609103d8abdc0a7cbaf'
   '9ec050e491788b8428395fc28b6d8486d64d314d8b85e97d8df30a35bd7b85d2ed84682e7b2eaed7b471b73aa51119e360761a099719eed9952713e0caba17ce'
 )
 
@@ -70,7 +68,6 @@ _package() {
   pkgdesc="The ${_srcname} kernel, ${_desc}"
   depends=('coreutils' 'kmod' 'initramfs')
   optdepends=('wireless-regdb: to set the correct wireless channels of your country')
-  backup=("etc/mkinitcpio.d/${pkgbase}.preset")
 
   cd "${_srcname}"
   
@@ -89,10 +86,6 @@ _package() {
 
   # used by mkinitcpio to name the kernel
   echo "${pkgbase}" | install -D -m 644 /dev/stdin "${_dir_module}/pkgbase"
-
-  # install mkinitcpio preset file
-  sed "s|%PKGBASE%|${pkgbase}|g" ../linux.preset |
-    install -Dm644 /dev/stdin "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
 }
 
 _package-headers() {
