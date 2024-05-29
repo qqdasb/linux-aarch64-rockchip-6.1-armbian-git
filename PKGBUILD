@@ -14,7 +14,7 @@ makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
 _srcname='linux-rockchip'
 source=(
-  "git+${url}/${_srcname}.git#branch=linux-6.1-stan-rkr1"
+  "git+${url}/${_srcname}.git#branch=noble"
   'localversion.config'
 )
 
