@@ -16,11 +16,13 @@ _srcname='linux-rockchip'
 source=(
   "git+${url}/${_srcname}.git#branch=noble"
   'localversion.config'
+  'panthor.patch'
 )
 
 sha512sums=(
   'SKIP'
   '9ec050e491788b8428395fc28b6d8486d64d314d8b85e97d8df30a35bd7b85d2ed84682e7b2eaed7b471b73aa51119e360761a099719eed9952713e0caba17ce'
+  'SKIP'
 )
 
 pkgver() {
@@ -47,6 +49,9 @@ prepare() {
     echo "Custom Patching with ${p}"
     patch -p1 -N -i $p || true
   done
+
+  # based on https://github.com/hbiyik/linux-rockchip/tree/noble-panthor
+  patch -p1 -N -i ../panthor.patch
 
   echo "Preparing config..."
   scripts/kconfig/merge_config.sh -m debian.rockchip/config/config.common.ubuntu ../localversion.config
