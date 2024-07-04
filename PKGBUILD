@@ -2,6 +2,8 @@
 # Maintainer: Jat-faan Wong
 # Contributor: Jat-faan Wong, Guoxin "7Ji" Pu, Joshua-Riek 
 
+_panthor_base=b7b1fc4b011be3359fd165a3f1739b1c63e8ceca
+_panthor_branch=rk-6.1-rkr3-panthor
 pkgbase=linux-aarch64-rockchip-bsp6.1-joshua-git
 pkgname=("${pkgbase}"{,-headers})
 pkgver=6.1.43.r1266030.gd3e66fee
@@ -16,7 +18,7 @@ _srcname='linux-rockchip'
 source=(
   "git+${url}/${_srcname}.git#branch=noble"
   'localversion.config'
-  'panthor.patch'
+  "panthor.patch::https://github.com/hbiyik/linux-rockchip/compare/${_panthor_base}...${_panthor_branch}.patch"
 )
 
 sha512sums=(
