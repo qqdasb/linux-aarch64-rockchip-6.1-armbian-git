@@ -7,7 +7,7 @@ _panthor_branch=rk-6.1-rkr3-panthor
 pkgbase=linux-aarch64-rockchip-bsp6.1-joshua-git
 pkgname=("${pkgbase}"{,-headers})
 pkgver=6.1.43.r1266030.gd3e66fee
-pkgrel=1
+pkgrel=2
 arch=('aarch64')
 license=('GPL2')
 url="https://github.com/Joshua-Riek"
@@ -24,7 +24,7 @@ source=(
 sha512sums=(
   'SKIP'
   '9ec050e491788b8428395fc28b6d8486d64d314d8b85e97d8df30a35bd7b85d2ed84682e7b2eaed7b471b73aa51119e360761a099719eed9952713e0caba17ce'
-  '9a693c739e90662d2f86c89874638ebba3d75e06c787151f6290d759df92589f4d500c6fe17533c06d2f3437518afaec6488c1c70fb813c7b0b5db9d9d320e20'
+  'c564ba067af52de0735bfb494d32ecbde70bd317bf0a819a36fa078ab2fd11e83fde6350573f8caa9a88a1c26f59106e6afcf318aaf25ccbc932633d5281253'
 )
 
 pkgver() {
