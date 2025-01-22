@@ -1,7 +1,7 @@
-pkgbase = linux-aarch64-rockchip-bsp6.1-joshua-git
-	pkgver = 6.1.43.r1266030.gd3e66fee
+pkgbase = linux-aarch64-armbian-rk-6.1-rkr4.1-opi3b-git
+	pkgver = 6.1-rkr4.1
 	pkgrel = 2
-	url = https://github.com/Joshua-Riek
+	url = https://github.com/armbian
 	arch = aarch64
 	license = GPL2
 	makedepends = cpio
@@ -13,20 +13,18 @@ pkgbase = linux-aarch64-rockchip-bsp6.1-joshua-git
 	makedepends = git
 	makedepends = dtc
 	options = !strip
-	source = git+https://github.com/Joshua-Riek/linux-rockchip.git#branch=noble
-	source = localversion.config
-	source = panthor.patch::https://github.com/hbiyik/linux/compare/aa54fa4e0712616d44f2c2f312ecc35c0827833d...rk-6.1-rkr3-panthor.patch
+	source = git+https://github.com/armbian/linux-rockchip.git#branch=rk-6.1-rkr4.1
+	source = .config
 	sha512sums = SKIP
-	sha512sums = 9ec050e491788b8428395fc28b6d8486d64d314d8b85e97d8df30a35bd7b85d2ed84682e7b2eaed7b471b73aa51119e360761a099719eed9952713e0caba17ce
-	sha512sums = c564ba067af52de0735bfb494d32ecbde70bd317bf0a819a36fa078ab2fd11e83fde6350573f8caa9a88a1c26f59106e6afcf318aaf25ccbc932633d52812538
+	sha512sums = 
 
-pkgname = linux-aarch64-rockchip-bsp6.1-joshua-git
-	pkgdesc = The linux-rockchip kernel, with patches picked by Joshua Riek focusing on RK3588
+pkgname = linux-aarch64-armbian-rk-6.1-rkr4.1-opi3b-git
+	pkgdesc = The linux-rockchip kernel, with Armbian's hacks
 	depends = coreutils
 	depends = kmod
 	depends = initramfs
 	optdepends = wireless-regdb: to set the correct wireless channels of your country
 
-pkgname = linux-aarch64-rockchip-bsp6.1-joshua-git-headers
+pkgname = linux-aarch64-armbian-rk-6.1-rkr4.1-opi3b-git-headers
 	pkgdesc = Headers and scripts for building modules for the linux-rockchip kernel, with patches picked by Joshua Riek focusing on RK3588
 	depends = python

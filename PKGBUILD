@@ -1,81 +1,44 @@
 # AArch64 multi-platform
-# Maintainer: Jat-faan Wong
-# Contributor: Jat-faan Wong, Guoxin "7Ji" Pu, Joshua-Riek 
+# Origin Maintainer: Jat-faan Wong
+# Origin Contributor: Jat-faan Wong, Guoxin "7Ji" Pu, Joshua-Riek 
+# Modifier: FxxkLinus
 
-_panthor_base=aa54fa4e0712616d44f2c2f312ecc35c0827833d
-_panthor_branch=linux-6.1-stan-rkr3-panthor
-pkgbase=linux-aarch64-rockchip-bsp6.1-joshua-git
+pkgbase=linux-aarch64-armbian-rk-6.1-rkr4.1-opi3b-git
 pkgname=("${pkgbase}"{,-headers})
-pkgver=6.1.43.r1266030.gd3e66fee
-pkgrel=2
+pkgver=6.1-rkr4.1
+pkgrel=1
 arch=('aarch64')
 license=('GPL2')
-url="https://github.com/Joshua-Riek"
-_desc="with patches picked by Joshua Riek focusing on RK3588" 
+url="https://github.com/armbian"
+_desc="with armbian's hacks" 
 makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
-_srcname='linux-rockchip'
+_srcname='build'
+_kernelsrcname='linux-rockchip'
 source=(
-  "git+${url}/${_srcname}.git#branch=noble"
-  'localversion.config'
-  "panthor.patch::https://github.com/hbiyik/linux/compare/${_panthor_base}...${_panthor_branch}.patch"
+  "git+${url}/${_srcname}.git#branch=main"
 )
 
 sha512sums=(
   'SKIP'
-  '9ec050e491788b8428395fc28b6d8486d64d314d8b85e97d8df30a35bd7b85d2ed84682e7b2eaed7b471b73aa51119e360761a099719eed9952713e0caba17ce'
-  'c564ba067af52de0735bfb494d32ecbde70bd317bf0a819a36fa078ab2fd11e83fde6350573f8caa9a88a1c26f59106e6afcf318aaf25ccbc932633d52812538'
 )
 
-pkgver() {
-  cd "${_srcname}"
-  printf "%s.%s%s%s.r%s.%s" \
-    "$(grep '^VERSION = ' Makefile|awk -F' = ' '{print $2}')" \
-    "$(grep '^PATCHLEVEL = ' Makefile|awk -F' = ' '{print $2}')" \
-    "$(grep '^SUBLEVEL = ' Makefile|awk -F' = ' '{print $2}'|grep -vE '^0$'|sed 's/.*/.\0/')" \
-    "$(grep '^EXTRAVERSION = ' Makefile|awk -F' = ' '{print $2}'|tr -d -|sed -E 's/rockchip[0-9]+//')" \
-    "$(git rev-list --count HEAD)" \
-    "$(git rev-parse --short=8 HEAD)"
-}
-
-prepare() {
-  cd "${_srcname}"
-  
-  rm -rf localversion*
-  echo "Setting version..."
-  echo "-rockchip" > localversion.10-pkgname
-  #echo "-r$(git rev-list --count HEAD)" > localversion.20-revision
-
-  # this is only for local builds so there is no need to integrity check. (if needed)
-  for p in ../../custom/*.patch; do
-    echo "Custom Patching with ${p}"
-    patch -p1 -N -i $p || true
-  done
-
-  # based on https://github.com/hbiyik/linux-rockchip/tree/noble-panthor
-  patch -p1 -N -i ../panthor.patch
-
-  echo "Preparing config..."
-  scripts/kconfig/merge_config.sh -m debian.rockchip/config/config.common.ubuntu ../localversion.config
-}
-
 build() {
+  # Compile The Kernel By Armbian Build Framework
   cd "${_srcname}"
 
-  make olddefconfig prepare
-  make -s kernelrelease > version
+  ./compile.sh kernel BOARD=orangepi3b BRANCH=vendor PREFER_DOCKER=no
 
-  unset LDFLAGS
-  make ${MAKEFLAGS} Image modules
-  make ${MAKEFLAGS} DTC_FLAGS="-@" dtbs
+  # Move Built Kernel Source
+  mv idk ../"${_kernelsrcname}"
 }
 
 _package() {
-  pkgdesc="The ${_srcname} kernel, ${_desc}"
+  pkgdesc="The ${_kernelsrcname} kernel, ${_desc}"
   depends=('coreutils' 'kmod' 'initramfs')
   optdepends=('wireless-regdb: to set the correct wireless channels of your country')
 
-  cd "${_srcname}"
+  cd "${_kernelsrcname}"
   
   # install dtbs
   make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs/${pkgbase}" dtbs_install
@@ -84,7 +47,7 @@ _package() {
   make INSTALL_MOD_PATH="${pkgdir}/usr" INSTALL_MOD_STRIP=1 modules_install
 
   # copy kernel
-  local _dir_module="${pkgdir}/usr/lib/modules/$(<version)"
+  local _dir_module="${pkgdir}/usr/lib/modules/6.1.84-vendor-rk35xx"
   install -Dm644 arch/arm64/boot/Image "${_dir_module}/vmlinuz"
 
   # remove reference to build host
@@ -95,11 +58,11 @@ _package() {
 }
 
 _package-headers() {
-  pkgdesc="Headers and scripts for building modules for the ${_srcname} kernel, ${_desc}"
+  pkgdesc="Headers and scripts for building modules for the ${_kernelsrcname} kernel, ${_desc}"
   depends=("python")
 
-  cd "${_srcname}"
-  local builddir="${pkgdir}/usr/lib/modules/$(<version)/build"
+  cd "${_kernelsrcname}"
+  local builddir="${pkgdir}/usr/lib/modules/6.1.84-vendor-rk35xx/build"
 
   echo "Installing build files..."
   install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version
