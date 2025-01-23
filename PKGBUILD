@@ -7,11 +7,12 @@ pkgbase=linux-aarch64-rockchip-rk6.1-opi3b-git
 pkgname=("${pkgbase}"{,-headers})
 pkgver=rkr4.1
 pkgrel=1
-arch=('aarch64')
+# x86_64 Architecture is for Cross Build
+arch=('aarch64','x86_64')
 license=('GPL2')
 url="https://github.com/qqdasb"
 _desc="with armbian's hacks" 
-makedepends=('aarch64-linux-gnu-gcc' 'cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
+makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
 _srcname='linux-rockchip'
 
