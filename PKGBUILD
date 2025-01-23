@@ -11,7 +11,7 @@ arch=('aarch64')
 license=('GPL2')
 url="https://github.com/qqdasb"
 _desc="with armbian's hacks" 
-makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
+makedepends=('aarch64-linux-gnu-gcc' 'cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
 _srcname='linux-rockchip'
 
@@ -22,12 +22,12 @@ prepare() {
 build() {
   cd ${_srcname}
 
-  make prepare -j$(nproc --all)
+  make ARCH=arm64 prepare
   make -s kernelrelease > version
 
   unset LDFLAGS
-  make ${MAKEFLAGS} Image modules -j$(nproc --all)
-  make ${MAKEFLAGS} DTC_FLAGS="-@" dtbs -j$(nproc --all)
+  make ARCH=arm64 ${MAKEFLAGS} Image modules
+  make ARCH=arm64 ${MAKEFLAGS} DTC_FLAGS="-@" dtbs
 }
 
 _package() {
@@ -38,10 +38,10 @@ _package() {
   cd "${_srcname}"
   
   # install dtbs
-  make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs/${pkgbase}" dtbs_install
+  make ARCH=arm64 INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs/${pkgbase}" dtbs_install
 
   # install modules
-  make INSTALL_MOD_PATH="${pkgdir}/usr" INSTALL_MOD_STRIP=1 modules_install
+  make ARCH=arm64 INSTALL_MOD_PATH="${pkgdir}/usr" INSTALL_MOD_STRIP=1 modules_install
 
   # copy kernel
   local _dir_module="${pkgdir}/usr/lib/modules/$(<version)"
