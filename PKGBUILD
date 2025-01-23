@@ -5,7 +5,7 @@
 
 pkgbase=linux-aarch64-rockchip-rk6.1-opi3b-git
 pkgname=("${pkgbase}"{,-headers})
-pkgver=6.1-rkr4.1
+pkgver=rkr4.1
 pkgrel=1
 arch=('aarch64')
 license=('GPL2')
@@ -14,18 +14,15 @@ _desc="with armbian's hacks"
 makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc' 'wget')
 options=('!strip')
 _srcname='linux-rockchip'
-source=(
-  "git+${url}/${_srcname}.git"
-)
 
-sha512sums=(
-  'SKIP'
-)
+prepare() {
+  git clone --depth 1 ${url}/${_srcname}.git
+}
 
 build() {
   cd ${_srcname}
 
-  make olddefconfig prepare
+  make prepare
   make -s kernelrelease > version
 
   unset LDFLAGS

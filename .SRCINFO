@@ -24,6 +24,6 @@ pkgname = linux-aarch64-rockchip-rk6.1-opi3b-git
 	depends = initramfs
 	optdepends = wireless-regdb: to set the correct wireless channels of your country
 
-pkgname = linux-aarch64-rockchip-rk6.1-opi3b-headers-git
+pkgname = linux-aarch64-rockchip-rk6.1-opi3b-git-headers
 	pkgdesc = Headers and scripts for building modules for the linux-rockchip kernel, with patches picked by Joshua Riek focusing on RK3588
 	depends = python
