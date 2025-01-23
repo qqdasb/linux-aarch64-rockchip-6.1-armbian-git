@@ -9,7 +9,7 @@ pkgver=rkr4.1
 pkgrel=1
 arch=('aarch64')
 license=('GPL2')
-url="https://github.com/qqdasb"
+url="https://hub.myxuebi.top/qqdasb"
 _desc="with armbian's hacks" 
 makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
@@ -22,12 +22,12 @@ prepare() {
 build() {
   cd ${_srcname}
 
-  make prepare
+  make prepare -j$(nproc --all)
   make -s kernelrelease > version
 
   unset LDFLAGS
-  make ${MAKEFLAGS} Image modules
-  make ${MAKEFLAGS} DTC_FLAGS="-@" dtbs
+  make ${MAKEFLAGS} Image modules -j$(nproc --all)
+  make ${MAKEFLAGS} DTC_FLAGS="-@" dtbs -j$(nproc --all)
 }
 
 _package() {
