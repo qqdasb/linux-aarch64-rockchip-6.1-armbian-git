@@ -11,7 +11,7 @@ arch=('aarch64')
 license=('GPL2')
 url="https://github.com/qqdasb"
 _desc="with armbian's hacks" 
-makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc' 'wget')
+makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
 options=('!strip')
 _srcname='linux-rockchip'
 
