@@ -3,20 +3,19 @@
 # Origin Contributor: Jat-faan Wong, Guoxin "7Ji" Pu, Joshua-Riek 
 # Modifier: FxxkLinus
 
-pkgbase=linux-aarch64-armbian-rk-6.1-rkr4.1-opi3b-git
+pkgbase=linux-aarch64-rockchip-rk6.1-opi3b-git
 pkgname=("${pkgbase}"{,-headers})
 pkgver=6.1-rkr4.1
 pkgrel=1
 arch=('aarch64')
 license=('GPL2')
-url="https://github.com/armbian"
+url="https://github.com/qqdasb"
 _desc="with armbian's hacks" 
-makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc')
+makedepends=('cpio' 'xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'dtc' 'wget')
 options=('!strip')
-_srcname='build'
-_kernelsrcname='linux-rockchip'
+_srcname='linux-rockchip'
 source=(
-  "git+${url}/${_srcname}.git#branch=main"
+  "git+${url}/${_srcname}.git"
 )
 
 sha512sums=(
@@ -24,21 +23,22 @@ sha512sums=(
 )
 
 build() {
-  # Compile The Kernel By Armbian Build Framework
-  cd "${_srcname}"
+  cd ${_srcname}
 
-  ./compile.sh kernel BOARD=orangepi3b BRANCH=vendor PREFER_DOCKER=no
+  make olddefconfig prepare
+  make -s kernelrelease > version
 
-  # Move Built Kernel Source
-  mv idk ../"${_kernelsrcname}"
+  unset LDFLAGS
+  make ${MAKEFLAGS} Image modules
+  make ${MAKEFLAGS} DTC_FLAGS="-@" dtbs
 }
 
 _package() {
-  pkgdesc="The ${_kernelsrcname} kernel, ${_desc}"
+  pkgdesc="The ${_srcname} kernel, ${_desc}"
   depends=('coreutils' 'kmod' 'initramfs')
   optdepends=('wireless-regdb: to set the correct wireless channels of your country')
 
-  cd "${_kernelsrcname}"
+  cd "${_srcname}"
   
   # install dtbs
   make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs/${pkgbase}" dtbs_install
@@ -47,7 +47,7 @@ _package() {
   make INSTALL_MOD_PATH="${pkgdir}/usr" INSTALL_MOD_STRIP=1 modules_install
 
   # copy kernel
-  local _dir_module="${pkgdir}/usr/lib/modules/6.1.84-vendor-rk35xx"
+  local _dir_module="${pkgdir}/usr/lib/modules/$(<version)"
   install -Dm644 arch/arm64/boot/Image "${_dir_module}/vmlinuz"
 
   # remove reference to build host
@@ -58,11 +58,11 @@ _package() {
 }
 
 _package-headers() {
-  pkgdesc="Headers and scripts for building modules for the ${_kernelsrcname} kernel, ${_desc}"
+  pkgdesc="Headers and scripts for building modules for the ${_srcname} kernel, ${_desc}"
   depends=("python")
 
-  cd "${_kernelsrcname}"
-  local builddir="${pkgdir}/usr/lib/modules/6.1.84-vendor-rk35xx/build"
+  cd "${_srcname}"
+  local builddir="${pkgdir}/usr/lib/modules/$(<version)/build"
 
   echo "Installing build files..."
   install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version
