@@ -8,7 +8,7 @@ pkgname=("${pkgbase}"{,-headers})
 pkgver=rkr4.1
 pkgrel=1
 # x86_64 Architecture is for Cross Build
-arch=('aarch64','x86_64')
+arch=('aarch64' 'x86_64')
 license=('GPL2')
 url="https://github.com/qqdasb"
 _desc="with armbian's hacks" 
