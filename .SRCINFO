@@ -4,7 +4,6 @@ pkgbase = linux-aarch64-rockchip-rk6.1-opi3b-git
 	url = https://github.com/qqdasb
 	arch = aarch64
 	license = GPL2
-	makedepends = aarch64-linux-gnu-gcc
 	makedepends = cpio
 	makedepends = xmlto
 	makedepends = docbook-xsl
