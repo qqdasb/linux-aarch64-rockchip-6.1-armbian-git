@@ -1,4 +1,4 @@
-pkgbase = linux-aarch64-rockchip-rk6.1-opi3b-git
+pkgbase = linux-aarch64-rockchip-6.1-armbian-git
 	pkgver = 6.1-rkr4.1
 	pkgrel = 2
 	url = https://github.com/qqdasb
@@ -17,13 +17,13 @@ pkgbase = linux-aarch64-rockchip-rk6.1-opi3b-git
 	source = .config
 	sha512sums = SKIP
 
-pkgname = linux-aarch64-rockchip-rk6.1-opi3b-git
+pkgname = linux-aarch64-rockchip-6.1-armbian-git
 	pkgdesc = The linux-rockchip kernel, with Armbian's hacks
 	depends = coreutils
 	depends = kmod
 	depends = initramfs
 	optdepends = wireless-regdb: to set the correct wireless channels of your country
 
-pkgname = linux-aarch64-rockchip-rk6.1-opi3b-git-headers
+pkgname = linux-aarch64-rockchip-6.1-armbian-git-headers
 	pkgdesc = Headers and scripts for building modules for the linux-rockchip kernel, with patches picked by Joshua Riek focusing on RK3588
 	depends = python

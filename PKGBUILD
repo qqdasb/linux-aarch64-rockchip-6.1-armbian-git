@@ -3,7 +3,7 @@
 # Origin Contributor: Jat-faan Wong, Guoxin "7Ji" Pu, Joshua-Riek 
 # Modifier: FxxkLinus
 
-pkgbase=linux-aarch64-rockchip-rk6.1-opi3b-git
+pkgbase=linux-aarch64-rockchip-6.1-armbian-git
 pkgname=("${pkgbase}"{,-headers})
 pkgver=rkr4.1
 pkgrel=1
