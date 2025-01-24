@@ -8,7 +8,7 @@ pkgname=("${pkgbase}"{,-headers})
 pkgver=rkr4.1
 pkgrel=1
 # x86_64 Architecture is for Cross Build
-arch=('aarch64' 'x86_64')
+arch=('aarch64')
 license=('GPL2')
 url="https://github.com/qqdasb"
 _desc="with armbian's hacks" 
@@ -23,12 +23,12 @@ prepare() {
 build() {
   cd ${_srcname}
 
-  make ARCH=arm64 prepare
+  make prepare
   make -s kernelrelease > version
 
   unset LDFLAGS
-  make ARCH=arm64 ${MAKEFLAGS} Image modules
-  make ARCH=arm64 ${MAKEFLAGS} DTC_FLAGS="-@" dtbs
+  make ${MAKEFLAGS} Image modules
+  make ${MAKEFLAGS} DTC_FLAGS="-@" dtbs
 }
 
 _package() {
@@ -39,10 +39,10 @@ _package() {
   cd "${_srcname}"
   
   # install dtbs
-  make ARCH=arm64 INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs/${pkgbase}" dtbs_install
+  make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs/${pkgbase}" dtbs_install
 
   # install modules
-  make ARCH=arm64 INSTALL_MOD_PATH="${pkgdir}/usr" INSTALL_MOD_STRIP=1 modules_install
+  make INSTALL_MOD_PATH="${pkgdir}/usr" INSTALL_MOD_STRIP=1 modules_install
 
   # copy kernel
   local _dir_module="${pkgdir}/usr/lib/modules/$(<version)"
