@@ -7,7 +7,6 @@ pkgbase=linux-aarch64-rockchip-6.1-armbian-git
 pkgname=("${pkgbase}"{,-headers})
 pkgver=rkr4.1
 pkgrel=1
-# x86_64 Architecture is for Cross Build
 arch=('aarch64')
 license=('GPL2')
 url="https://github.com/qqdasb"
