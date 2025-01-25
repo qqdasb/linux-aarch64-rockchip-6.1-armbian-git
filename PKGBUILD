@@ -17,7 +17,7 @@ options=('!strip')
 _srcname='linux-rockchip'
 
 prepare() {
-  if [ -d "src/linux-rockchip" ];then
+  if [ ! -d "./linux-rockchip" ];then
     git clone --depth 1 ${url}/${_srcname}.git
     else
     echo "Skip clone source"
