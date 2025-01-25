@@ -1,6 +1,6 @@
 pkgbase = linux-aarch64-rockchip-6.1-armbian-git
 	pkgver = 6.1-rkr4.1
-	pkgrel = 2
+	pkgrel = 1
 	url = https://github.com/qqdasb
 	arch = aarch64
 	license = GPL2
@@ -13,9 +13,6 @@ pkgbase = linux-aarch64-rockchip-6.1-armbian-git
 	makedepends = git
 	makedepends = dtc
 	options = !strip
-	source = git+https://github.com/qqdasb/linux-rockchip.git
-	source = .config
-	sha512sums = SKIP
 
 pkgname = linux-aarch64-rockchip-6.1-armbian-git
 	pkgdesc = The linux-rockchip kernel, with Armbian's hacks
