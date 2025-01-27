@@ -55,7 +55,8 @@ _package() {
   rm -f "${_dir_module}/"{build,source}
 
   # used by mkinitcpio to name the kernel
-  echo "${pkgbase}" | install -D -m 644 /dev/stdin "${_dir_module}/pkgbase"
+  echo "${pkgbase}" > "${_dir_module}/pkgbase"
+  chmod 644 "${_dir_module}/pkgbase"
 }
 
 _package-headers() {
